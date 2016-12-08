@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>webChat</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="login.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <!--<form id="registerForm" class="form-signin" role="form" action="/register" method="post">-->
+    <form id="registerForm" class="form-signin" role="form">
+    <h2 class="form-signin-heading">Please register</h2>
+        <table>
+            <tr>
+                <td>Account</td>
+                <td><input type="text" name="account" class="form-control" placeholder="account" required autofocus></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="password" class="form-control" placeholder="Password" required></td>
+            </tr>
+        </table>
+    </form>
+    <button class="btn btn-lg btn-primary btn-block" style="max-width: 330px;padding: 15px;margin: 0 auto;" type="submit" onclick="doSubmit()">submit</button>
+
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    function doSubmit(){
+        var account = $("input[name='account']").val();
+        var password = $("input[name='password']").val();
+        $.ajax({
+            url: "/register",
+            dataType: "text",
+            type: "post",
+            async:true,
+            data:{account:account, password:password},
+            success: function (data) {
+                if(data == "yes") {
+                    alert("success");
+                    window.location.href = "login.html";
+                } else if(data == "no") {
+                    alert("account exist");
+                    $("input[name='account']").val("");
+                    $("input[name='password']").val("");
+                }
+            },
+            error : function(data) {
+                alert("error");
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
