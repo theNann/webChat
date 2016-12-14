@@ -9,10 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="chat.css" rel="stylesheet">
-    <script src="jquery.min.js"></script>
+    <link href="css/messenger.css" rel="stylesheet">
+    <link href="css/messenger-theme-future.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/messenger.min.js"></script>
 </head>
-<body>
+<body onload="load()">
 <div class="chat_window">
     <div class="top_menu">
         <div class="buttons">
@@ -35,7 +38,10 @@
 </div>
 <div class="message_template">
     <li class="message">
-        <div class="avatar"></div>
+        <div class="avatar">
+            <div class="avatar_text"></div>
+        </div>
+
         <div class="text_wrapper">
             <div class="text"></div>
         </div>
@@ -43,5 +49,10 @@
 </div>
 
 <script src="chat.js"></script>
+<script type="text/javascript">
+    $._messengerDefaults = {
+        extraClasses: 'messenger-fixed messenger-theme-air messenger-on-top'
+    }
+</script>
 </body>
 </html>

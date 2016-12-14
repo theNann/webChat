@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import org.pyn.bean.User;
 import org.pyn.dao.UserDao;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

@@ -11,7 +11,6 @@
 </head>
 <body>
 <div class="container">
-    <!--<form id="registerForm" class="form-signin" role="form" action="/register" method="post">-->
     <form id="registerForm" class="form-signin" role="form">
     <h2 class="form-signin-heading">Please register</h2>
         <table>
@@ -22,6 +21,10 @@
             <tr>
                 <td>Password</td>
                 <td><input type="password" name="password" class="form-control" placeholder="Password" required></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="passwordAgain" class="form-control" placeholder="Password" required></td>
             </tr>
         </table>
     </form>
@@ -35,26 +38,32 @@
     function doSubmit(){
         var account = $("input[name='account']").val();
         var password = $("input[name='password']").val();
-        $.ajax({
-            url: "/register",
-            dataType: "text",
-            type: "post",
-            async:true,
-            data:{account:account, password:password},
-            success: function (data) {
-                if(data == "yes") {
-                    alert("success");
-                    window.location.href = "login.html";
-                } else if(data == "no") {
-                    alert("account exist");
-                    $("input[name='account']").val("");
-                    $("input[name='password']").val("");
+        var passwordAgain = $("input[name='passwordAgain']").val();
+        if(password === passwordAgain) {
+            $.ajax({
+                url: "/register",
+                dataType: "text",
+                type: "post",
+                async: true,
+                data: {account: account, password: password},
+                success: function (data) {
+                    if (data == "yes") {
+                        alert("success");
+                        window.location.href = "login.html";
+                    } else if (data == "no") {
+                        alert("account exist");
+                        $("input[name='account']").val("");
+                        $("input[name='password']").val("");
+                    }
+                },
+                error: function (data) {
+                    alert("error");
                 }
-            },
-            error : function(data) {
-                alert("error");
-            }
-        });
+            });
+        } else {
+            alert("两次输入的密码不同！");
+            window.location.href = "register.html";
+        }
     }
 </script>
 

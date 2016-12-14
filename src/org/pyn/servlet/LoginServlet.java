@@ -1,9 +1,14 @@
 package org.pyn.servlet;
 
+import org.pyn.bean.OnlineUser;
 import org.pyn.bean.User;
+import org.pyn.dao.OnlineUserDao;
 import org.pyn.dao.UserDao;
+import org.pyn.message.OnlineNumMessage;
+import org.www.MyServerEndpoint;
 import sun.awt.image.ImageWatched;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
