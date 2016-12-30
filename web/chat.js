@@ -17,6 +17,25 @@ var Message = function (arg) {
     };
 };
 
+var drawTime = function() {
+    currentTime = new Date();
+    if(displayTime === true || (currentTime.getTime() - lastTime.getTime() >= 60000) ){
+        if(displayTime === true) {
+            displayTime = false;
+        }
+        lastTime = currentTime;
+        return function () {
+            var $message;
+            $message = $($('.time_template').clone().html());
+            $message.find('.time').html(currentTime.toLocaleDateString()+" "+currentTime.toLocaleTimeString());
+            $('.messages').append($message);
+            return setTimeout(function () {
+                return $message.addClass('appeared');
+            }, 0);
+        }();
+    }
+};
+
 var showMessage = function (account, content) {
     $('.message_input').val('');
     var side;
@@ -30,6 +49,7 @@ var showMessage = function (account, content) {
         content: content,
         message_side: side
     });
+    // alert("account: " + account);
     message.draw();
     var $messages = $('.messages');
     return $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
@@ -40,16 +60,12 @@ var getMessageText = function () {
 };
 
 function load() {
-    $.globalMessenger().post({
-        message: "welcome "+request("account")+" to chat room",//提示信息
-        type: 'success',//消息类型。error、info、success
-        hideAfter: 3,//多长时间消失
-        showCloseButton:true,//是否显示关闭按钮
-        hideOnNavigate: true //是否隐藏导航
-    });
     ws = null;
     ws = new WebSocket("ws://localhost:8080/websocket");
+    displayTime = true;
+    lastTime = new Date();
     ws.onmessage = function(evt) {
+        drawTime();
         var message = JSON.parse(evt.data);
         var type = message.type;
         if(type === "chatMessage") {
@@ -57,7 +73,7 @@ function load() {
             var content = message.content;
             showMessage(account, content);
         } else if(type === "onlineNumMessage") {
-            alert("当前在线人数：" + message.onlineNum);
+            showMessage("系统", "当前在线人数：" + message.onlineNum);
         }
     };
     ws.onclose = function(evt) {
@@ -65,7 +81,13 @@ function load() {
     };
 
     ws.onopen = function(evt) {
-        alert("open");
+        $.globalMessenger().post({
+            message: "welcome "+request("account")+" to chat room...",//提示信息
+            type: 'success',//消息类型。error、info、success
+            hideAfter: 3,//多长时间消失
+            showCloseButton:true,//是否显示关闭按钮
+            hideOnNavigate: true //是否隐藏导航
+        });
     };
 }
 
@@ -86,8 +108,13 @@ function sendMsg() {
         ws.send(JSON.stringify(message));
     }
 }
+//
+// function doFriendsCircle() {
+//     window.open("friendsCircle.jsp?account="+request("account"));
+// }
 
 $(function () {
+    $('#frindsCircleLink').attr("href","friendsCircle.jsp?account="+request("account"));
     $('.send_message').click(function (e) {
         sendMsg();
     });

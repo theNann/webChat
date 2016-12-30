@@ -22,20 +22,15 @@ import java.util.logging.Logger;
  * Created by pyn on 2016/12/8.
  */
 @ServerEndpoint(value = "/websocket")
-public class MyServerEndpoint{
+public class MyServerEndpoint {
     private Session session;
-    public static final Logger sysLogger = Logger.getLogger("sysLog");
-    public static final Set<MyServerEndpoint> connections = new CopyOnWriteArraySet<>();
+    private Logger sysLogger = Logger.getLogger("sysLog");
 
     @OnOpen
     public void open(Session session) {
         this.session = session;
-        connections.add(this);
+        ClientManager.getInstance().addClient(this);
         sysLogger.info("*** WebSocket opened from sessionId " + session.getId());
-
-        OnlineNumMessage onlineNumMessage = new OnlineNumMessage();
-        onlineNumMessage.setOnlineNum(MyServerEndpoint.connections.size());
-        MyServerEndpoint.broadcast(onlineNumMessage.encode());
     }
 
     @OnMessage
@@ -44,33 +39,22 @@ public class MyServerEndpoint{
         JSONObject jsonObject = new JSONObject(message);
         String type = (String)jsonObject.get("type");
         if(type.equals("chatMessage")) {
-            broadcast(message);
+            ClientManager.getInstance().broadcast(message);
         }
     }
 
-    public static void broadcast(String message) {
-        for(MyServerEndpoint client : connections) {
-            try {
-                client.session.getBasicRemote().sendText(message);
-            } catch (IOException e) {
-                connections.remove(client);
-                try {
-                    client.session.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                e.printStackTrace();
-            }
-
-        }
-    }
     @OnClose
     public void end() {
-        connections.remove(this);
+        ClientManager.getInstance().removeClient(this);
         sysLogger.info("*** WebSocket closed from sessionId " + this.session.getId());
+    }
 
-        OnlineNumMessage onlineNumMessage = new OnlineNumMessage();
-        onlineNumMessage.setOnlineNum(MyServerEndpoint.connections.size());
-        MyServerEndpoint.broadcast(onlineNumMessage.encode());
+    public void send(String message) {
+        try {
+            session.getBasicRemote().sendText(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+            ClientManager.getInstance().removeClient(this);
+        }
     }
 }

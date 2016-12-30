@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>webChat</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
     <link href="login.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -32,8 +34,6 @@
 
 </div>
 
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <script>
     function doSubmit(){
         var account = $("input[name='account']").val();
@@ -48,7 +48,6 @@
                 data: {account: account, password: password},
                 success: function (data) {
                     if (data == "yes") {
-                        alert("success");
                         window.location.href = "login.html";
                     } else if (data == "no") {
                         alert("account exist");

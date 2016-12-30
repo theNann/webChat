@@ -1,7 +1,9 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8">
     <meta name="robots" content="noindex">
 
@@ -17,6 +19,7 @@
 </head>
 <body onload="load()">
 <div class="chat_window">
+
     <div class="top_menu">
         <div class="buttons">
             <div class="button close"></div>
@@ -24,8 +27,14 @@
             <div class="button maximize"></div>
         </div>
         <div class="title">Chat</div>
+        <div class="friendsCircle">
+
+        </div>
     </div>
-    <ul class="messages"></ul>
+
+    <ul class="messages">
+    </ul>
+
     <div class="bottom_wrapper clearfix">
         <div class="message_input_wrapper">
             <input class="message_input" placeholder="Type your message here..." />
@@ -34,8 +43,24 @@
             <div class="icon"></div>
             <div class="text">Send</div>
         </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                发现
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <!--<input type="button" value="朋友圈" onclick="doFriendsCircle()">-->
+                    <a href="" id="frindsCircleLink" target="_blank" style="text-decoration:none">
+                        朋友圈
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
+
 <div class="message_template">
     <li class="message">
         <div class="avatar">
@@ -47,8 +72,13 @@
         </div>
     </li>
 </div>
+<div class="time_template">
+    <li>
+        <div class="time"></div>
+    </li>
+</div>
 
-<script src="chat.js"></script>
+<script type="text/javascript" language="JavaScript" src="chat.js" charset="utf-8"></script>
 <script type="text/javascript">
     $._messengerDefaults = {
         extraClasses: 'messenger-fixed messenger-theme-air messenger-on-top'

@@ -54,7 +54,6 @@ body {
     color: #bcbdc0;
     font-size: 20px;
 }
-
 .messages {
     position: relative;
     list-style: none;
@@ -69,6 +68,11 @@ body {
     margin-bottom: 20px;
     transition: all 0.5s linear;
     opacity: 0;
+}
+.messages .time {
+    text-align: center;
+    color: #bcbdc0;
+    font-size: 20px;
 }
 .messages .message.left .avatar {
     background-color: #f5886e;
@@ -162,9 +166,10 @@ body {
     height: 50px;
     border-radius: 25px;
     border: 1px solid #bcbdc0;
-    width: calc(100% - 160px);
+    width: calc(100% - 280px);
     position: relative;
     padding: 0 20px;
+    float: left;
 }
 .bottom_wrapper .message_input_wrapper .message_input {
     border: none;
@@ -186,7 +191,7 @@ body {
     cursor: pointer;
     transition: all 0.2s linear;
     text-align: center;
-    float: right;
+    /*float: left;*/
 }
 .bottom_wrapper .send_message:hover {
     color: #a3d063;
